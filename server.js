@@ -3,6 +3,8 @@ const path = require('path');
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, '/public')));
+
 app.use((req, res, next) => {
   res.show = (name) => {
     res.sendFile(path.join(__dirname, `/views/${name}`));
@@ -10,7 +12,16 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/user', (req, res, next) => {
+  res.show('forbidden.html');
+  next();
+});
+
 app.get('/', (req, res) => {
+  res.show('index.html');
+});
+
+app.get('/home', (req, res) => {
   res.show('index.html');
 });
 
@@ -18,20 +29,8 @@ app.get('/about', (req, res) => {
   res.show('about.html');
 });
 
-app.get('/contact', (req, res) => {
-  res.show('contact.html');
-});
-
-app.get('/info', (req, res) => {
-  res.show('nfo.html');
-});
-
-app.get('/history', (req, res) => {
-  res.show('history.html');
-});
-
 app.use((req, res) => {
-  res.status(404).send('404 not found...');
+  res.status(404).show('not-found.html');
 });
 
 app.listen(8000, () => {

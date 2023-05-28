@@ -14,7 +14,6 @@ app.use((req, res, next) => {
 
 app.use('/user', (req, res, next) => {
   res.show('forbidden.html');
-  next();
 });
 
 app.get('/', (req, res) => {
